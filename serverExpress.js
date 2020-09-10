@@ -4,9 +4,58 @@ const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
-const AcceptUrl = (req, res, next) => {
-  if (req.image) next();
+const http = require("http");
+const socketIo = require("socket.io");
+const server = http.createServer(app);
+const io = socketIo(server);
+
+const mongoose = require("mongoose");
+const { url } = require("inspector");
+const { title } = require("process");
+const { type } = require("os");
+const { types } = require("util");
+const Schema = mongoose.Schema;
+// mongoose.set("returnOriginal", false);
+mongoose.set("useFindAndModify", false);
+
+const ConnectToDB = () => {
+  return mongoose.connect("mongodb://localhost/test", {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+  });
 };
+
+const productSchema = new mongoose.Schema({
+  id: Schema.Types.ObjectId,
+  title: String,
+  image: String,
+  quantity: Number,
+  price: Number,
+  discription: String,
+});
+const Product = mongoose.model("Product", productSchema);
+
+const productInCartSchema = new mongoose.Schema({
+  productId: { type: Schema.Types.ObjectId, ref: "Product" },
+  quantity: Number,
+  title: String,
+});
+const ProductInCart = mongoose.model("ProductInCart", productInCartSchema);
+
+const userSchema = new mongoose.Schema({
+  _id: Schema.Types.ObjectId,
+  name: String,
+  password: Number,
+  cart: { type: Schema.Types.ObjectId, ref: "Cart" },
+});
+const User = mongoose.model("User", userSchema);
+
+const CartSchema = new mongoose.Schema({
+  products: [{ type: Schema.Types.ObjectId, ref: "ProductInCart" }],
+});
+const Cart = mongoose.model("Cart", CartSchema);
+
 app.use(bodyParser.json());
 
 app.use(cors());
@@ -15,46 +64,51 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.get("/products", (req, res) => {
-  console.log("QUERY:", req.query);
+app.get("/products", async (req, res) => {
   const search = req.query.search;
-  fs.readFile("products.json", (err, data) => {
-    const products = JSON.parse(data);
-    if (search) {
-      const filteredProducts = products.filter((product) =>
-        product.title.toLowerCase().includes(search.toLowerCase())
-      );
-      res.send(filteredProducts);
-    } else {
-      res.send(products);
-    }
-  });
+  console.log(search);
+
+  if (search) {
+    products = await product
+      .find({ title: { $regex: search, $options: "i" } })
+      .exec();
+  } else {
+    products = await Product.find().exec();
+  }
+  res.send(products);
 });
 
-app.post("/products", (req, res) => {
-  fs.readFile("products.json", (err, data) => {
-    console.log(req.body);
-    const products = JSON.parse(data);
-    const title = req.body.title;
-    const image = req.body.image;
-    const quantity = req.body.quantity;
-    const price = req.body.price;
-    const discription = req.body.discription;
-
-    products.push({
-      id: products[products.length - 1].id + 1,
-      title: title,
-      image: image,
-      quantity: quantity,
-      price: price,
-      discription: discription,
-    });
-
-    fs.writeFile("products.json", JSON.stringify(products), (err) => {
-      // console.log(err);
-      res.send("YOU SUCCEED!!!");
-    });
+app.post("/cart", async (req, res) => {
+  const { _id: productId, title } = req.body;
+  const cartProduct = new ProductInCart({
+    productId: productId,
+    quantity: 4,
+    title: title,
   });
+  await cartProduct.save();
+  res.send("product in the cart");
+
+  const cartNew = new Cart({
+    products: [...Cart.products, productId],
+  });
+  await cartNew.save();
+  await Cart.find([0]).populate("products").exec();
+  console.log("products on cart:", [Cart.products.title]);
+
+  // await populate('ProductInCart')
+});
+
+app.post("/products", async (req, res) => {
+  console.log(req.body);
+  const productNew = new Product({
+    title: req.body.title,
+    image: req.body.image,
+    quantity: req.body.quantity,
+    price: req.body.price,
+    discription: req.body.discription,
+  });
+  await productNew.save();
+  res.send("YOU SUCCEED!!!");
 });
 
 app.post("/upload", (req, res) => {
@@ -63,39 +117,45 @@ app.post("/upload", (req, res) => {
 });
 
 app.delete("/products/:id", (req, res) => {
-  fs.readFile("products.json", (err, data) => {
-    const products = JSON.parse(data);
-    const productId = +req.params.id;
-    const productIndex = products.findIndex(
-      (product) => product.id === productId
-    );
-    products.splice(productIndex, 1);
-    fs.writeFile("products.json", JSON.stringify(products), (err) => {
-      res.send("YOU SUCCEED!!!");
-    });
+  const productId = +req.params.id;
+  product.deleteOne({ _id: productId }, function (err) {
+    if (err) return err;
+    else res.send("YOU SUCCEED!!!");
   });
 });
 
-app.put("/products/:id", (req, res) => {
-  fs.readFile("products.json", (err, data) => {
-    const products = JSON.parse(data);
-    const productId = +req.params.id;
-    const productIndex = products.findIndex(
-      (product) => product.id === productId
-    );
-    const product = products[productIndex];
+app.put("/products/:id", async (req, res) => {
+  const productId = +req.params.id;
+  const query = req.body;
+  console.log(query);
+  await Product.findOneAndUpdate({ _id: productId }, query).exec();
 
-    for (const property in product) {
-      if (req.body[property]) product[property] = req.body[property];
-    }
+  res.send("YOU SUCCEED update!!!");
+});
 
-    fs.writeFile("products.json", JSON.stringify(products), (err) => {
-      res.send("YOU SUCCEED!!!");
-    });
+//update quantity
+
+app.put("/quantity/:id", async (req, res) => {
+  const productId = req.params.id;
+
+  const quant_change = req.body.quantity;
+  let product = await Product.findOneAndUpdate(
+    { _id: productId },
+    { quantity: quant_change }
+  ).exec();
+  console.log(quant_change);
+
+  await res.send("YOU did it!!!");
+  io.emit("newQuantity", {
+    new_quant: quant_change,
+    name: product.title,
   });
 });
+
 app.use("/images/", express.static("images"));
 
-app.listen(8000, () => {
-  console.log("Example app listening on port 8000!");
+ConnectToDB().then(() => {
+  server.listen(8000, () => {
+    console.log("Example app listening on port 8000!");
+  });
 });

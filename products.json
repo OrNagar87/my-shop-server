@@ -1,1 +1,58 @@
-[{"id":8,"title":"תיק טיולים","image":"https://cdn.azrieli.com/Images/43653aeb-15d0-4222-b876-fa0b4e3a3d58/Normal/d22cae4e.jpg","quantity":"3","price":"236","discription":"qwe"},{"id":9,"title":"נעלי טיפוס","image":"https://evengear.co.il/wp-content/uploads/2019/12/%D7%A0%D7%A2%D7%9C-%D7%98%D7%99%D7%A4%D7%95%D7%A1-%D7%A2%D7%9D-%D7%A7%D7%99%D7%9E%D7%95%D7%A8-%D7%9E%D7%AA%D7%95%D7%9F-SCARPA-VAPOR-V-1.jpg","quantity":"20","price":"250","discription":"נעלי הרים הכי טובות"},{"id":12,"title":"אחיזות לקיר טיפוס","image":"http://localhost:8000/images/אחיזות לקיר טיפוס.jpg","quantity":"45","price":"38","discription":"אחיזות צבעוניות לקיר טיפוס בארבעה גוונים"},{"id":13,"title":"נעלי טיפוס","image":"https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSoXIxnciSitSWS3NVj4HQl9J2fYlgQIlmZ51vBWy1PFytSFgm4Uvu1xo6poLvtnxbn6huzaa5HxA&usqp=CAc","quantity":"50","price":"250","discription":"נעלי טיפוס לקירות ולבולדרינג"}]
+[
+  {
+    "id": 8,
+    "title": "תיק מסעות טיפוס",
+    "image": "https://cdn.azrieli.com/Images/43653aeb-15d0-4222-b876-fa0b4e3a3d58/Normal/d22cae4e.jpg",
+    "price": "236",
+    "discription": "תיק מסעות לטיפוס\nצבע תכלת\nמספר 123456\nחברת ciscoo",
+    "quantity": 120
+  },
+  {
+    "id": 9,
+    "title": "נעלי טיפוס",
+    "image": "https://evengear.co.il/wp-content/uploads/2019/12/%D7%A0%D7%A2%D7%9C-%D7%98%D7%99%D7%A4%D7%95%D7%A1-%D7%A2%D7%9D-%D7%A7%D7%99%D7%9E%D7%95%D7%A8-%D7%9E%D7%AA%D7%95%D7%9F-SCARPA-VAPOR-V-1.jpg",
+    "quantity": "130",
+    "price": "250",
+    "discription": "נעלי הרים הכי טובות"
+  },
+  {
+    "id": 12,
+    "title": "אחיזות לקיר טיפוס",
+    "image": "http://localhost:8000/images/אחיזות לקיר טיפוס.jpg",
+    "quantity": "100",
+    "price": "38",
+    "discription": "אחיזות צבעוניות לקיר טיפוס בארבעה גוונים"
+  },
+  {
+    "id": 13,
+    "title": "נעלי טיפוס",
+    "image": "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSoXIxnciSitSWS3NVj4HQl9J2fYlgQIlmZ51vBWy1PFytSFgm4Uvu1xo6poLvtnxbn6huzaa5HxA&usqp=CAc",
+    "quantity": "50",
+    "price": "250",
+    "discription": "נעלי טיפוס לקירות ולבולדרינג"
+  },
+  {
+    "id": 14,
+    "title": "טבעת אלומיניום",
+    "image": "https://evengear.co.il/wp-content/uploads/2019/10/%D7%98%D7%91%D7%A2%D7%AA-HMS-%D7%90%D7%9C%D7%95%D7%9E%D7%99%D7%A0%D7%99%D7%95%D7%9D-K6G-MEGA-TWIN-GATE-min.jpg",
+    "quantity": "100",
+    "price": "60",
+    "discription": "טבעת אלומיניום HMS דגם K6G MEGA TWIN GATE\nטבעת בצורת אגס עם מנגנון ה Twin Gate (gate-gate) החדשני\nהטבעת בעלת גשר ישר כפול, אידיאלית לאבטוח (belay) ושימוש כללי\nמשקל: 83 גר'\nמידות: אורך-רוחב-פתיחה 20-71-102"
+  },
+  {
+    "id": 16,
+    "title": "רתמת טיפוס טרנדית",
+    "image": "https://evengear.co.il/wp-content/uploads/2020/08/GRIVEL-TREND-HARNESS.jpg",
+    "quantity": "6",
+    "price": "200",
+    "discription": "רתמת טיפוס ספורטיבית בעיצוב טרנדי'\nרתמת ספורט בעלת אבזם סגירה אחד.\nהרתמה הארגונומית והריפוד בלולאות הרגליים מבטיחות נוחות והתאמה מקסימלית.\nהיקף מותניים בס\"מ: מידה XS: 63-72 | מידה S:67-76 | מידה M: 77-86 | מידה L: 84-93\nהיקף XS: 44-49 | מידה S: 48-53 | מידה M: 53-58 | מידה L: 58-63"
+  },
+  {
+    "id": 17,
+    "title": "רתמה מלאה וקלה",
+    "image": "http://localhost:8000/images/רתמה מלאה וקלה.jpg",
+    "quantity": "8",
+    "price": "245",
+    "discription": "רתמה מלאה וקלה לשימוש רגיל לקיר טיפוס"
+  }
+]

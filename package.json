@@ -5,7 +5,8 @@
   "main": "serverExpress.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon serverExpress.js"
+    "start": "nodemon serverExpress.js",
+    "startMongo": "nodemon mongo.js"
   },
   "author": "",
   "license": "ISC",
@@ -13,6 +14,8 @@
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "nodemon": "^2.0.4"
+    "mongoose": "^5.10.2",
+    "nodemon": "^2.0.4",
+    "socket.io": "^2.3.0"
   }
 }
