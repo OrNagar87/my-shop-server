@@ -27,7 +27,6 @@ const ConnectToDB = () => {
 };
 
 const productSchema = new mongoose.Schema({
-  id: Schema.Types.ObjectId,
   title: String,
   image: String,
   quantity: Number,
@@ -37,14 +36,12 @@ const productSchema = new mongoose.Schema({
 const Product = mongoose.model("Product", productSchema);
 
 const productInCartSchema = new mongoose.Schema({
-  productId: { type: Schema.Types.ObjectId, ref: "Product" },
   quantity: Number,
-  title: String,
+  title: [{ type: Schema.Types.ObjectId, ref: "Product" }],
 });
 const ProductInCart = mongoose.model("ProductInCart", productInCartSchema);
 
 const userSchema = new mongoose.Schema({
-  _id: Schema.Types.ObjectId,
   name: String,
   password: Number,
   cart: { type: Schema.Types.ObjectId, ref: "Cart" },
@@ -52,7 +49,7 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model("User", userSchema);
 
 const CartSchema = new mongoose.Schema({
-  products: [{ type: Schema.Types.ObjectId, ref: "ProductInCart" }],
+  products: { type: Schema.Types.ObjectId, ref: "ProductInCart" },
 });
 const Cart = mongoose.model("Cart", CartSchema);
 
@@ -69,9 +66,9 @@ app.get("/products", async (req, res) => {
   console.log(search);
 
   if (search) {
-    products = await product
-      .find({ title: { $regex: search, $options: "i" } })
-      .exec();
+    products = await Product.find({
+      title: { $regex: search, $options: "i" },
+    }).exec();
   } else {
     products = await Product.find().exec();
   }
@@ -79,23 +76,20 @@ app.get("/products", async (req, res) => {
 });
 
 app.post("/cart", async (req, res) => {
-  const { _id: productId, title } = req.body;
   const cartProduct = new ProductInCart({
-    productId: productId,
-    quantity: 4,
-    title: title,
+    quantity: req.body.quantity,
+    title: [req.body.title],
   });
   await cartProduct.save();
   res.send("product in the cart");
+  console.log(cartProduct);
 
-  const cartNew = new Cart({
-    products: [...Cart.products, productId],
-  });
-  await cartNew.save();
-  await Cart.find([0]).populate("products").exec();
-  console.log("products on cart:", [Cart.products.title]);
-
-  // await populate('ProductInCart')
+  await ProductInCart.find()
+    .populate("title")
+    .exec(function (err, title) {
+      if (err) console.log(err);
+      else console.log("products on cart:", [title[0].title]);
+    });
 });
 
 app.post("/products", async (req, res) => {
@@ -117,15 +111,15 @@ app.post("/upload", (req, res) => {
 });
 
 app.delete("/products/:id", (req, res) => {
-  const productId = +req.params.id;
-  product.deleteOne({ _id: productId }, function (err) {
+  const productId = req.params.id;
+  Product.deleteOne({ _id: productId }, function (err) {
     if (err) return err;
     else res.send("YOU SUCCEED!!!");
   });
 });
 
 app.put("/products/:id", async (req, res) => {
-  const productId = +req.params.id;
+  const productId = req.params.id;
   const query = req.body;
   console.log(query);
   await Product.findOneAndUpdate({ _id: productId }, query).exec();
@@ -145,7 +139,7 @@ app.put("/quantity/:id", async (req, res) => {
   ).exec();
   console.log(quant_change);
 
-  await res.send("YOU did it!!!");
+  await res.send("YOU did it!!!").exc();
   io.emit("newQuantity", {
     new_quant: quant_change,
     name: product.title,
