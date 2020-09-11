@@ -78,7 +78,7 @@ app.get("/products", async (req, res) => {
 app.post("/cart", async (req, res) => {
   const cartProduct = new ProductInCart({
     quantity: req.body.quantity,
-    title: [req.body.title],
+    title: req.body.title,
   });
   await cartProduct.save();
   res.send("product in the cart");
@@ -88,7 +88,7 @@ app.post("/cart", async (req, res) => {
     .populate("title")
     .exec(function (err, title) {
       if (err) console.log(err);
-      else console.log("products on cart:", [title[0].title]);
+      else console.log("products on cart:", title[title.length - 1].title);
     });
 });
 
