@@ -49,7 +49,7 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model("User", userSchema);
 
 const CartSchema = new mongoose.Schema({
-  products: { type: Schema.Types.ObjectId, ref: "ProductInCart" },
+  products: [{ type: Schema.Types.ObjectId, ref: "ProductInCart" }],
 });
 const Cart = mongoose.model("Cart", CartSchema);
 
@@ -90,6 +90,22 @@ app.post("/cart", async (req, res) => {
       if (err) console.log(err);
       else console.log("products on cart:", title[title.length - 1].title);
     });
+});
+
+// const CartNew = new Cart({
+//   products: [
+//     ProductInCart.find()
+//       .populate("title")
+//       .find((p) => p._id),
+//   ],
+// });
+
+app.delete("/cart/:id", (req, res) => {
+  const productId = req.params.id;
+  ProductInCart.deleteOne({ title: productId }, function (err) {
+    if (err) return err;
+    else res.send("YOU SUCCEED!!!");
+  });
 });
 
 app.post("/products", async (req, res) => {
@@ -139,11 +155,15 @@ app.put("/quantity/:id", async (req, res) => {
   ).exec();
   console.log(quant_change);
 
-  await res.send("YOU did it!!!").exc();
-  io.emit("newQuantity", {
-    new_quant: quant_change,
-    name: product.title,
-  });
+  //socket is calling when there is update of quantity
+  io.on("connect", OnConnect);
+  res.send("YOU did it!!!").exc();
+  function OnConnect() {
+    io.emit("newQuantity", {
+      new_quant: quant_change,
+      name: product.title,
+    });
+  }
 });
 
 app.use("/images/", express.static("images"));
