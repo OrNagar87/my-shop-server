@@ -9,11 +9,14 @@ const socketIo = require("socket.io");
 const server = http.createServer(app);
 const io = socketIo(server);
 
+const path = require("path");
+
 const mongoose = require("mongoose");
 const { url } = require("inspector");
 const { title } = require("process");
 const { type } = require("os");
 const { types } = require("util");
+const { dirname } = require("path");
 const Schema = mongoose.Schema;
 // mongoose.set("returnOriginal", false);
 mongoose.set("useFindAndModify", false);
@@ -61,7 +64,7 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.get("/products", async (req, res) => {
+app.get("/api/products", async (req, res) => {
   const search = req.query.search;
   console.log(search);
 
@@ -75,7 +78,7 @@ app.get("/products", async (req, res) => {
   res.send(products);
 });
 
-app.post("/cart", async (req, res) => {
+app.post("/api/cart", async (req, res) => {
   const cartProduct = new ProductInCart({
     quantity: req.body.quantity,
     title: req.body.title,
@@ -92,15 +95,7 @@ app.post("/cart", async (req, res) => {
     });
 });
 
-// const CartNew = new Cart({
-//   products: [
-//     ProductInCart.find()
-//       .populate("title")
-//       .find((p) => p._id),
-//   ],
-// });
-
-app.delete("/cart/:id", (req, res) => {
+app.delete("/api/cart/:id", (req, res) => {
   const productId = req.params.id;
   ProductInCart.deleteOne({ title: productId }, function (err) {
     if (err) return err;
@@ -108,7 +103,7 @@ app.delete("/cart/:id", (req, res) => {
   });
 });
 
-app.post("/products", async (req, res) => {
+app.post("/api/products", async (req, res) => {
   console.log(req.body);
   const productNew = new Product({
     title: req.body.title,
@@ -121,12 +116,12 @@ app.post("/products", async (req, res) => {
   res.send("YOU SUCCEED!!!");
 });
 
-app.post("/upload", (req, res) => {
+app.post("/api/upload", (req, res) => {
   req.pipe(fs.createWriteStream(`images/${req.query.filename}`));
   res.send("WOW!");
 });
 
-app.delete("/products/:id", (req, res) => {
+app.delete("/api/products/:id", (req, res) => {
   const productId = req.params.id;
   Product.deleteOne({ _id: productId }, function (err) {
     if (err) return err;
@@ -134,7 +129,7 @@ app.delete("/products/:id", (req, res) => {
   });
 });
 
-app.put("/products/:id", async (req, res) => {
+app.put("/api/products/:id", async (req, res) => {
   const productId = req.params.id;
   const query = req.body;
   console.log(query);
@@ -145,7 +140,7 @@ app.put("/products/:id", async (req, res) => {
 
 //update quantity
 
-app.put("/quantity/:id", async (req, res) => {
+app.put("/api/quantity/:id", async (req, res) => {
   const productId = req.params.id;
 
   const quant_change = req.body.quantity;
@@ -166,10 +161,16 @@ app.put("/quantity/:id", async (req, res) => {
   }
 });
 
-app.use("/images/", express.static("images"));
+app.use("_dirname/images/", express.static("images"));
+app.use(express.static(path.join(_dirname, "client/build")));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/client/build/index.html"));
+});
+
+const port = process.env.PORT || 5000;
 
 ConnectToDB().then(() => {
-  server.listen(8000, () => {
-    console.log("Example app listening on port 8000!");
+  server.listen(port, () => {
+    console.log(`Example app listening on ${port}`);
   });
 });

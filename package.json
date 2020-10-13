@@ -1,21 +1,25 @@
 {
-  "name": "node.js",
+  "name": "my-first-shop",
   "version": "1.0.0",
   "description": "",
-  "main": "serverExpress.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon serverExpress.js",
-    "startMongo": "nodemon mongo.js"
+    "start": "node index.js",
+    "start-dev": "nodemon index.js",
+    "startMongo": "nodemon mongo.js",
+    "heroku-postbuild": "cd client && npm i && npm run build"
   },
   "author": "",
   "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
   "dependencies": {
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "mongoose": "^5.10.2",
-    "nodemon": "^2.0.4",
     "socket.io": "^2.3.0"
   }
 }

@@ -1,0 +1,27 @@
+
+
+.search_table {
+    width: 80%;
+    text-align: right;
+    margin-left: 10%;
+}
+
+.adding_wruper {
+    float: right;
+}
+
+.adding_title {
+    text-align: right;
+}
+
+.ant-table-container {
+    margin: 20px;
+
+}
+
+.body {
+    width: 940px;
+    align-items: center;
+    margin: auto;
+
+}
