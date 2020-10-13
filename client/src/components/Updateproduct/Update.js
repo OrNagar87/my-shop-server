@@ -16,7 +16,7 @@ export default function Update() {
   const [dataSource, setDataSource] = useState([]);
   const [product, setProduct] = useState([]);
   useEffect(() => {
-    axios.get("http://127.0.0.1:8000/products/").then(function (response) {
+    axios.get("http://api/products/").then(function (response) {
       setDataSource(response.data);
     });
   }, []);
@@ -69,16 +69,14 @@ export default function Update() {
               if (window.confirm("are you sure you want to delete?")) {
                 console.log(product._id);
                 await axios
-                  .delete("http://127.0.0.1:8000/products/" + product._id)
+                  .delete("http://api/products/" + product._id)
 
                   .then((res) => {
                     console.log("POST DATA", res);
-                    axios
-                      .get("http://127.0.0.1:8000/products/")
-                      .then(function (response) {
-                        setData(response.data);
-                        alert("המוצר נמחק");
-                      });
+                    axios.get("http://api/products/").then(function (response) {
+                      setData(response.data);
+                      alert("המוצר נמחק");
+                    });
                   })
                   .catch((err) => {
                     console.log(err);
@@ -118,7 +116,7 @@ export default function Update() {
           maxLength="10"
           onSearch={(value) => {
             axios
-              .get("http://127.0.0.1:8000/products/?search=" + value)
+              .get("http://api/products/?search=" + value)
               .then(function (response) {
                 setDataSource(response.data);
               });
