@@ -22,11 +22,14 @@ const Schema = mongoose.Schema;
 mongoose.set("useFindAndModify", false);
 
 const ConnectToDB = () => {
-  return mongoose.connect("mongodb://localhost/test", {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-  });
+  return mongoose.connect(
+    `mongodb+srv://My-Shop:${process.env.DB_PASS}$@cluster0.jgomz.mongodb.net/<My-Shop>?retryWrites=true&w=majority`,
+    {
+      useNewUrlParser: true,
+      useCreateIndex: true,
+      useUnifiedTopology: true,
+    }
+  );
 };
 
 const productSchema = new mongoose.Schema({
