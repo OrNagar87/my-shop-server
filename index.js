@@ -165,9 +165,9 @@ app.put("/api/quantity/:id", async (req, res) => {
 });
 
 app.use("_dirname/images/", express.static("images"));
-app.use(express.static(path.join(_dirname, "client/build")));
+app.use(express.static(path.join("client")));
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname + "/client/build/index.html"));
+  res.sendFile(path.join("/client/build/index.html"));
 });
 
 const port = process.env.PORT || 5000;
