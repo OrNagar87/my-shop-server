@@ -63,9 +63,9 @@ app.use(bodyParser.json());
 
 app.use(cors());
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+// app.get("/", (req, res) => {
+//   res.send("Hello World!");
+// });
 
 app.get("/api/products", async (req, res) => {
   const search = req.query.search;
