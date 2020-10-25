@@ -9,7 +9,7 @@ const Discription = () => {
   const [product, setProduct] = useState([]);
 
   useEffect(() => {
-    axios.get("http://127.0.0.1:8000/products/").then(function (response) {
+    axios.get("/api/products/").then(function (response) {
       setProduct(response.data.find((product) => product._id === idParam));
       console.log(product);
     });

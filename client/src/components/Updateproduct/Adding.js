@@ -10,7 +10,7 @@ export default function Adding() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios.get("http://api/products/").then(function (response) {
+    axios.get("/api/products/").then(function (response) {
       setData(response.data);
     });
   }, []);
@@ -44,14 +44,14 @@ export default function Adding() {
     if (fileInput) {
       const uploadedFile = fileInput.current;
 
-      axios.post("http://api/upload", uploadedFile.files[0], {
+      axios.post("/api/upload", uploadedFile.files[0], {
         params: { filename: uploadedFile.files[0].name },
         onUploadProgress: (progressEvent) => {
           const percentCompleted = Math.round(
             (progressEvent.loaded * 100) / progressEvent.total
           );
           console.log(percentCompleted);
-          setimage("http://api/images/" + uploadedFile.files[0].name);
+          setimage("/api/images/" + uploadedFile.files[0].name);
         },
       });
     }
@@ -91,7 +91,7 @@ export default function Adding() {
     console.log("adding");
 
     axios
-      .post("http://api/products/", {
+      .post("/api/products/", {
         title: title,
         image: image,
         price: price,
