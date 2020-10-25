@@ -63,7 +63,7 @@ const App = (props) => {
       setproductonCart([...productonCart]);
     }
     axios
-      .post("http://api/cart", {
+      .post("/api/cart", {
         title: data[index]._id,
         quantity: quant,
       })
@@ -89,7 +89,7 @@ const App = (props) => {
     console.log([_id]);
     setproductonCart(productonCart.filter((product) => product._id !== _id));
     await axios
-      .delete("http://api/cart/" + product1._id)
+      .delete("/api/cart/" + product1._id)
       .then((res) => console.log("product remove from cart"))
       .catch((err) => console.log(err));
 
@@ -99,7 +99,7 @@ const App = (props) => {
 
   // let range = [min, max];
   useEffect(() => {
-    axios.get("http://api/products/").then(function (response) {
+    axios.get("/api/products/").then(function (response) {
       setData(response.data);
       setFirst_quantity(response.data.quantity);
 
@@ -116,7 +116,7 @@ const App = (props) => {
   const [divisible, setDivisible] = useState(false);
 
   useEffect(() => {
-    const socket = socketIOClient("http://api");
+    const socket = socketIOClient("/api");
     socket.on("newQuantity", (newquant) => {
       setNewQuant(newquant);
       setDivisible(true);
@@ -152,7 +152,7 @@ const App = (props) => {
           maxLength="10"
           onSearch={(value) => {
             axios
-              .get("http://api/products/?search=" + value)
+              .get("/api/products/?search=" + value)
               .then(function (response) {
                 setData(response.data);
               });

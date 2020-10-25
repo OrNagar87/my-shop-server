@@ -73,7 +73,7 @@ export default function Edit(props) {
       <Button
         onClick={async () => {
           await axios
-            .put("http://api/products/" + props._id, {
+            .put("/api/products/" + props._id, {
               title: change_title,
               image: img,
               price: change_price,
@@ -83,7 +83,7 @@ export default function Edit(props) {
             .then((res) => {
               if (change_quantity) {
                 axios
-                  .put("http://api/quantity/" + props._id, {
+                  .put("/api/quantity/" + props._id, {
                     quantity: change_quantity,
                   })
                   .then((res) => {
