@@ -23,7 +23,7 @@ mongoose.set("useFindAndModify", false);
 
 const ConnectToDB = () => {
   return mongoose.connect(
-    `mongodb+srv://My-Shop:${process.env.DB_PASS}$@cluster0.jgomz.mongodb.net/<My-Shop>?retryWrites=true&w=majority`,
+    `mongodb+srv://admin:${process.env.DB_PASS}@cluster0.jgomz.mongodb.net/myshopdata?retryWrites=true&w=majority`,
     {
       useNewUrlParser: true,
       useCreateIndex: true,
@@ -164,10 +164,11 @@ app.put("/api/quantity/:id", async (req, res) => {
   }
 });
 
-app.use("_dirname/images/", express.static("images"));
-app.use(express.static(path.join("client")));
+app.use("/images/", express.static("images"));
+app.use(express.static(path.join(__dirname, "client/build")));
+
 app.get("*", (req, res) => {
-  res.sendFile(path.join("/client/build/index.html"));
+  res.sendFile(path.join(__dirname + "/client/build/index.html"));
 });
 
 const port = process.env.PORT || 5000;
