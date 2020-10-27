@@ -51,7 +51,7 @@ export default function Adding() {
             (progressEvent.loaded * 100) / progressEvent.total
           );
           console.log(percentCompleted);
-          setimage("/api/images/" + uploadedFile.files[0].name);
+          setimage(__dirname + "/api/images/" + uploadedFile.files[0].name);
         },
       });
     }
