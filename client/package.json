@@ -10,6 +10,8 @@
     "antd": "^4.4.2",
     "antd-img-crop": "^3.10.0",
     "axios": "^0.19.2",
+    "http-proxy-middleware": "^1.0.6",
+    "proxy": "http://localhost:5000",
     "jss-rtl": "^0.3.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
