@@ -12,23 +12,23 @@
 }
 
 .onCart {
-    overflow: scroll;
+   
     height: 100%;
 }
 
-/* .onCart::-webkit-scrollbar {
+.onCart::-webkit-scrollbar {
     width: 5px;
-} */
+}
 
-/* .onCart::-webkit-scrollbar-track {
+.onCart::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-} */
+}
 
-
+/* 
 .onCart::-webkit-scrollbar-thumb {
     background-color: darkgrey;
     outline: 1px solid slategrey;
-}
+} */
 
 /* .icon_cart {
     height: 60px;

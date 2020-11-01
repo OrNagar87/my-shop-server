@@ -143,30 +143,31 @@ const App = (props) => {
         <div style={{ float: "left", margin: "10px" }}>
           <UpdateButton />
         </div>
-
-        <Search
-          className="search_table"
-          placeholder="חפש מוצר"
-          enterButton="חיפוש מוצר"
-          size="large"
-          maxLength="10"
-          onSearch={(value) => {
-            axios
-              .get("/api/products/?search=" + value)
-              .then(function (response) {
-                setData(response.data);
-              });
-          }}
-        />
-        <Slider
-          range
-          max={max}
-          min={min}
-          defaultValue={[{ min }, 130]}
-          onChange={onChange}
-          tooltipVisible
-          className="Theslider"
-        />
+        <div>
+          <Search
+            className="search_table"
+            placeholder="חפש מוצר"
+            enterButton="חיפוש מוצר"
+            size="large"
+            maxLength="10"
+            onSearch={(value) => {
+              axios
+                .get("/api/products/?search=" + value)
+                .then(function (response) {
+                  setData(response.data);
+                });
+            }}
+          />
+          <Slider
+            range
+            max={max}
+            min={min}
+            defaultValue={[{ min }, 130]}
+            onChange={onChange}
+            tooltipVisible
+            className="Theslider"
+          />
+        </div>
         {divisible && (
           <div>
             !!!!! עדכון מלאי!!!!!

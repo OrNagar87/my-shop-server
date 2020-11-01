@@ -14,7 +14,9 @@
 
 }
 
-
+.products_list{
+  top:3;
+}
 
 
 .onCart {
@@ -25,7 +27,7 @@
 @import '~antd/dist/antd.css';
 
 h1 {
-  margin: 5px;
+  margin-bottom: 3px;
   font: bold;
   color: aliceblue;
   background-color: black;
@@ -44,7 +46,7 @@ h1.header {
 }
 
 .search_table {
-  width: 50%;
+  width: 20%;
   text-align: right;
   margin-right: 25%;
 }
