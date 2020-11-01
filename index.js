@@ -3,6 +3,8 @@ const fs = require("fs");
 const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
+require("dotenv").config();
+const cookieParser = require("cookie-parser");
 
 const http = require("http");
 const socketIo = require("socket.io");
@@ -17,6 +19,14 @@ const { title } = require("process");
 const { type } = require("os");
 const { types } = require("util");
 const { dirname } = require("path");
+
+const { login, refresh } = require("./authentication");
+app.use(bodyParser.json());
+app.use(cookieParser());
+
+app.post("/login", login);
+app.post("/refrsh", refresh);
+
 const Schema = mongoose.Schema;
 // mongoose.set("returnOriginal", false);
 mongoose.set("useFindAndModify", false);
@@ -59,8 +69,6 @@ const CartSchema = new mongoose.Schema({
   products: [{ type: Schema.Types.ObjectId, ref: "ProductInCart" }],
 });
 const Cart = mongoose.model("Cart", CartSchema);
-
-app.use(bodyParser.json());
 
 app.use(cors());
 
