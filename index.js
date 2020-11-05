@@ -20,12 +20,12 @@ const { type } = require("os");
 const { types } = require("util");
 const { dirname } = require("path");
 
-const { login, refresh } = require("./authentication");
+// const { login, refresh } = require("./authentication");
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.post("/login", login);
-app.post("/refrsh", refresh);
+// app.post("/login", login);
+// app.post("/refrsh", refresh);
 
 const Schema = mongoose.Schema;
 // mongoose.set("returnOriginal", false);
@@ -33,8 +33,8 @@ mongoose.set("useFindAndModify", false);
 
 const ConnectToDB = () => {
   return mongoose.connect(
-    `mongodb+srv://admin:${process.env.DB_PASS}@cluster0.jgomz.mongodb.net/myshopdata?retryWrites=true&w=majority`,
-    // "mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false",
+    // `mongodb+srv://admin:${process.env.DB_PASS}@cluster0.jgomz.mongodb.net/myshopdata?retryWrites=true&w=majority`,
+    "mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false",
     {
       useNewUrlParser: true,
       useCreateIndex: true,
